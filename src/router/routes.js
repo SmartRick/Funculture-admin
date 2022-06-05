@@ -3,6 +3,7 @@ import plugins from './modules/plugins'
 import components from './modules/components'
 
 import layoutHeaderAside from '@/layout/header-aside'
+import article from './modules/article'
 
 // 由于懒加载页面太多的话会造成webpack热更新太慢，所以开发环境不使用懒加载，只有生产环境使用懒加载
 const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
@@ -54,7 +55,8 @@ const frameIn = [
   },
   playground,
   plugins,
-  components
+  components,
+  article
 ]
 
 /**

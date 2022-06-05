@@ -6,6 +6,8 @@ import demoPlugins from './modules/demo-plugins'
 import demoComponents from './modules/demo-components'
 // 功能
 import demoPlayground from './modules/demo-playground'
+// 文章管理
+import articleManager from './modules/article-manager'
 
 /**
  * @description 给菜单数据补充上 path 字段
@@ -26,7 +28,8 @@ function supplementPath (menu) {
 export const menuAside = supplementPath([
   demoComponents,
   demoPlugins,
-  demoPlayground
+  demoPlayground,
+  articleManager
 ])
 
 // 菜单 顶栏
@@ -38,5 +41,6 @@ export const menuHeader = supplementPath([
   },
   demoPlayground,
   demoComponents,
-  demoPlugins
+  demoPlugins,
+  articleManager
 ])
