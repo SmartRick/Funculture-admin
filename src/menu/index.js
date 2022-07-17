@@ -26,9 +26,9 @@ function supplementPath (menu) {
 
 // 菜单 侧边栏
 export const menuAside = supplementPath([
-  demoComponents,
-  demoPlugins,
-  demoPlayground,
+  // demoComponents,
+  // demoPlugins,
+  // demoPlayground,
   articleManager
 ])
 
@@ -39,8 +39,8 @@ export const menuHeader = supplementPath([
     title: '首页',
     icon: 'home'
   },
-  demoPlayground,
-  demoComponents,
-  demoPlugins,
+  // demoPlayground,
+  // demoComponents,
+  // demoPlugins,
   articleManager
 ])

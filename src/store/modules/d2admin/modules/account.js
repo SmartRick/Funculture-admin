@@ -1,7 +1,7 @@
 import { Message, MessageBox } from 'element-ui'
 import util from '@/libs/util.js'
 import router from '@/router'
-import { SYS_USER_LOGIN } from '@/api/sys.user.js'
+import { SYS_USER_LOGIN,MOCK_SYS_USER_LOGIN } from '@/api/sys.user.js'
 
 export default {
   namespaced: true,
@@ -17,13 +17,13 @@ export default {
       username = '',
       password = ''
     } = {}) {
-      const res = await SYS_USER_LOGIN({ username, password })
-      // console.log(res);
+      const res = await MOCK_SYS_USER_LOGIN({ username, password })
       // 设置 cookie 一定要存 uuid 和 token 两个 cookie
       // 整个系统依赖这两个数据进行校验和存储
       // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
       // token 代表用户当前登录状态 建议在网络请求中携带 token
       // 如有必要 token 需要定时更新，默认保存一天
+      console.log(res)
       util.cookies.set('userid', res.id)
       util.cookies.set('token', res.token)
       // 设置 vuex 用户信息

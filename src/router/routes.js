@@ -53,9 +53,9 @@ const frameIn = [
       }
     ]
   },
-  playground,
-  plugins,
-  components,
+  // playground,
+  // plugins,
+  // components,
   article
 ]
 

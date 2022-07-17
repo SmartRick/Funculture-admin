@@ -4,7 +4,9 @@ import Adapter from 'axios-mock-adapter'
 import { get, isEmpty, merge } from 'lodash'
 import qs from 'qs'
 import util from '@/libs/util'
+import log from '@/libs/util.log'
 import store from '@/store'
+import { errList, findByCode } from './error_code'
 
 /**
  * @description 记录和显示错误
@@ -78,20 +80,44 @@ function createService () {
       if (response.data.code === undefined) {
         return response.data
       }
-
-      // 有 code 判断为项目接口请求
-      switch (response.data.code) {
-        // 返回响应内容
-        case 200:
-        case 201:
+      log.capsule('后端响应数据', `接口：${response.config.url}`, 'primary')
+      console.log('响应码: ', response.data.code)
+      console.log('响应消息: ',response.data.msg)
+      console.log(response.data.data)
+      console.groupEnd()
+      const resCode = findByCode(response.data.code)
+      if (resCode != null) {
+        if (resCode.succ) {
+          if (response.data.msg) {
+            console.log("静茹")
+            Message.success(response.data.msg)
+          }
           return response.data.data
-        // 例如在 code 401 情况下退回到登录页面
-        case 401:
-          throw new Error('请重新登录')
-        // 根据需要添加其它判断
-        default:
+        } else {
+          Message.error(response.data.msg)
           throw new Error(`${response.data.msg}: ${response.config.url}`)
+        }
+      } else {
+        //无法识别的响应码，交给后面自己处理
+        return response.data
       }
+
+      // // 有 code 判断为项目接口请求
+      // switch (response.data.code) {
+      //   // 返回响应内容
+      //   case 200:
+      //   case 201:
+      //     return response.data.data
+      //   // 业务错误码自定义
+      //   case 401:
+      //     // 例如在 code 401 情况下退回到登录页面
+      //     throw new Error('用户未登录，请重新登录')
+      //   case USER_ACCOUNT_NOT_EXIST:
+      //     throw new Error('用户未登录，请重新登录')
+      //   // 根据需要添加其它判断
+      //   default:
+      //     throw new Error(`${response.data.msg}: ${response.config.url}`)
+      // }
     },
     error => {
       const status = get(error, 'response.status')
@@ -174,6 +200,11 @@ function createRequest (service) {
     if (!isEmpty(option.data) && option.headers['Content-Type'] === 'application/x-www-form-urlencoded') {
       option.data = stringify(option.data)
     }
+
+    log.capsule('请求数据', `接口：${option.url}`, 'default')
+    console.log('请求数据: ', option.data)
+    console.groupEnd()
+
     return service(option)
   }
 }
@@ -190,13 +221,21 @@ export const requestForMock = createRequest(serviceForMock)
 export const mock = new Adapter(serviceForMock)
 
 // 通用请求函数
-export function from (url, data = {}) {
+export function post_form (url, data = {}) {
   return request({
     url: url,
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
+    data
+  })
+}
+
+export function post_json (url, data = {}) {
+  return request({
+    url: url,
+    method: 'post',
     data
   })
 }
