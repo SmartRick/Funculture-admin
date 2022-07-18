@@ -8,6 +8,9 @@ import demoComponents from './modules/demo-components'
 import demoPlayground from './modules/demo-playground'
 // 文章管理
 import articleManager from './modules/article-manager'
+import permissionManager from './modules/permission-manager'
+import userManager from './modules/user-manager'
+import systemManager from './modules/system-manager'
 
 /**
  * @description 给菜单数据补充上 path 字段
@@ -42,5 +45,8 @@ export const menuHeader = supplementPath([
   // demoPlayground,
   // demoComponents,
   // demoPlugins,
-  articleManager
+  articleManager,
+  userManager,
+  permissionManager,
+  systemManager
 ])

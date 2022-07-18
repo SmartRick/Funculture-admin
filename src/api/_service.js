@@ -82,14 +82,13 @@ function createService () {
       }
       log.capsule('后端响应数据', `接口：${response.config.url}`, 'primary')
       console.log('响应码: ', response.data.code)
-      console.log('响应消息: ',response.data.msg)
+      console.log('响应消息: ', response.data.msg)
       console.log(response.data.data)
       console.groupEnd()
       const resCode = findByCode(response.data.code)
       if (resCode != null) {
         if (resCode.succ) {
           if (response.data.msg) {
-            console.log("静茹")
             Message.success(response.data.msg)
           }
           return response.data.data
@@ -122,18 +121,41 @@ function createService () {
     error => {
       const status = get(error, 'response.status')
       switch (status) {
-        case 400: error.message = '请求错误'; break
-        case 401: error.message = '未授权，请登录'; break
-        case 403: error.message = '拒绝访问'; break
-        case 404: error.message = `请求地址出错: ${error.response.config.url}`; break
-        case 408: error.message = '请求超时'; break
-        case 500: error.message = '服务器内部错误'; break
-        case 501: error.message = '服务未实现'; break
-        case 502: error.message = '网关错误'; break
-        case 503: error.message = '服务不可用'; break
-        case 504: error.message = '网关超时'; break
-        case 505: error.message = 'HTTP版本不受支持'; break
-        default: break
+        case 400:
+          error.message = '请求错误'
+          break
+        case 401:
+          error.message = '未授权，请登录'
+          break
+        case 403:
+          error.message = '拒绝访问'
+          break
+        case 404:
+          error.message = `请求地址出错: ${error.response.config.url}`
+          break
+        case 408:
+          error.message = '请求超时'
+          break
+        case 500:
+          error.message = '服务器内部错误'
+          break
+        case 501:
+          error.message = '服务未实现'
+          break
+        case 502:
+          error.message = '网关错误'
+          break
+        case 503:
+          error.message = '服务不可用'
+          break
+        case 504:
+          error.message = '网关超时'
+          break
+        case 505:
+          error.message = 'HTTP版本不受支持'
+          break
+        default:
+          break
       }
       handleError(error)
       throw error
@@ -143,7 +165,10 @@ function createService () {
 }
 
 function stringify (data) {
-  return qs.stringify(data, { allowDots: true, encode: false })
+  return qs.stringify(data, {
+    allowDots: true,
+    encode: false
+  })
 }
 
 /**
@@ -210,6 +235,14 @@ export function post_json (url, data = {}) {
   return request({
     url: url,
     method: 'post',
+    data
+  })
+}
+
+export function delete_id (url, data = {}) {
+  return request({
+    url: url,
+    method: 'delete',
     data
   })
 }
